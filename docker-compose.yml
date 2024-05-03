@@ -1,0 +1,23 @@
+version: '3.1'
+services:
+  aop-demo-db:
+    image: postgres:14-alpine
+    container_name: aop-demo-db
+    ports:
+      - "8081:5432"
+    environment:
+      - POSTGRES_DB=aopdemo
+      - POSTGRES_USER=aopdemo
+      - POSTGRES_PASSWORD=aopdemo
+
+  aop-demo-app:
+    build: ./
+    container_name: aop-demo-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - aop-demo-db
+    environment:
+      - DATABASE_URL=jdbc:postgresql://aop-demo-db:5432/aopdemo
+      - DATABASE_USERNAME=aopdemo
+      - DATABASE_PASSWORD=aopdemo
